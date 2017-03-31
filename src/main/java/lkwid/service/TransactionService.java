@@ -6,8 +6,8 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lkwid.dao.TransactionDao;
 import lkwid.entity.Transaction;
+import lkwid.repository.TransactionDao;
 
 @Service
 public class TransactionService {
