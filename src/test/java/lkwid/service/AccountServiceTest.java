@@ -37,7 +37,7 @@ public class AccountServiceTest {
 
 	@Test
 	public void getEmail() {		
-		Assert.assertEquals("rguzik@gmail.com", accountService.findAccount(1L).getEmail());
+		Assert.assertEquals("rguzik@gmail.com", accountService.showAccount("rguzik@gmail.com").getEmail());
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class AccountServiceTest {
 	
 	@Test
 	public void getRoles() {	
-		Assert.assertEquals(Roles.USER, accountService.findAccount(1L).getRoles().get(0));
+		Assert.assertEquals(Roles.USER.getName(), accountService.showAccount("rguzik@gmail.com").getRoles().get(0).getName());
 	}
 
 }

@@ -26,7 +26,7 @@ public class Account {
 	private String password;	
 	private BigDecimal balance;		
 	@ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "TBL_ACC_ROLES", joinColumns = @JoinColumn(name = "ACC_ID"))
+	@CollectionTable(joinColumns = @JoinColumn(name = "ACC_ID"))
 	@Column(name = "ROLES_ID")
 	@Enumerated(EnumType.STRING)
 	private List<Roles> roles;

@@ -42,13 +42,13 @@ public class AccountService implements UserDetailsService {
 	private static List<GrantedAuthority> getAuthorities(List<Roles> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (Roles role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.toString()));
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		return authorities;
 	}
 	
-	public Account findAccount(long id) {
-		return accountDao.findOne(id);
+	public Account showAccount(String email) {
+		return accountDao.findByEmail(email);
 	}
 	
 	public boolean existsAccount(String email) {
