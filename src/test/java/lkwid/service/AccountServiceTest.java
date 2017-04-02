@@ -1,8 +1,8 @@
 package lkwid.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
+
+import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,26 +14,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lkwid.entity.Account;
 import lkwid.entity.Roles;
+import lkwid.entity.dto.AccountDto;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class AccountServiceTest {
-	private Account testAccount; 
+@Transactional
+public class AccountServiceTest {	
 	
 	@Autowired
 	private AccountService accountService;
 	
-	@Before
+	@Before	
 	public void setUp() throws Exception {
-		testAccount = new Account();
-		testAccount.setId(1L);
-		testAccount.setFirstName("Romand");
-		testAccount.setLastName("Guzik");
-		testAccount.setEmail("rguzik@gmail.com");
-		testAccount.setPassword("abc1");
-		testAccount.setBalance(new BigDecimal(2600.00));		
-		testAccount.setRoles(Arrays.asList(Roles.USER));
-		accountService.saveAccount(testAccount);
+		AccountDto accountDto = new AccountDto();		
+		accountDto.setFirstName("Romand");
+		accountDto.setLastName("Guzik");
+		accountDto.setEmail("rguzik@gmail.com");
+		accountDto.setPassword("abc1");
+		accountDto.setBalance(new BigDecimal(2600.00));		
+		accountService.saveAccount(accountDto);
 	}
 
 	@Test
@@ -54,10 +53,10 @@ public class AccountServiceTest {
 	
 	@Test
 	public void updateAccount() {
-		Account updatedAccount = testAccount;
-		updatedAccount.setBalance(new BigDecimal(3000.00));
+		Account testAccount = accountService.findAccount("rguzik@gmail.com");		
+		testAccount.setPassword("def2");
 		accountService.updateAccount("rguzik@gmail.com", testAccount);
-		Assert.assertEquals(new BigDecimal(3000.00).setScale(2, RoundingMode.HALF_UP), accountService.findAccount("rguzik@gmail.com").getBalance());
+		Assert.assertEquals("def2", accountService.findAccount("rguzik@gmail.com").getPassword());
 	}
 
 }

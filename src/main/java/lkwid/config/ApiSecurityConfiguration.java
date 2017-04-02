@@ -12,9 +12,7 @@ import lkwid.service.AccountService;
 @Configuration
 @EnableWebSecurity
 public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
-	private static final String REALM = "USER_REALM";
-	
+
 	@Autowired
 	private AccountService accountService;
 	
@@ -32,7 +30,6 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and()
 		.csrf().disable()
 		.httpBasic()
-		.realmName(REALM)
 		.and()
 		.authorizeRequests()		
 		.antMatchers("/api/**").hasRole("USER")

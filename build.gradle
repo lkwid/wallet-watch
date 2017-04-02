@@ -29,6 +29,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('javax.money:money-api:1.0.1')
 	compile('org.javamoney:moneta:1.1')
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+	compile('org.webjars.bower:github-com-twbs-bootstrap:v3.3.7')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

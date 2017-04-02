@@ -1,11 +1,15 @@
 package lkwid.entity.dto;
 
+import java.math.BigDecimal;
+
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import lkwid.validators.PasswordMatches;
 
 @PasswordMatches
-public class UserDto {
+public class AccountDto {
 	@NotEmpty
 	private String firstName;
 	@NotEmpty
@@ -15,6 +19,8 @@ public class UserDto {
 	@NotEmpty
 	private String password;
 	private String matchingPassword;
+	@NotNull
+	private BigDecimal balance;
 	
 	public String getFirstName() {
 		return firstName;
@@ -45,6 +51,12 @@ public class UserDto {
 	}
 	public void setMatchingPassword(String matchingPassword) {
 		this.matchingPassword = matchingPassword;
+	}
+	public BigDecimal getBalance() {
+		return balance;
+	}
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 
 }

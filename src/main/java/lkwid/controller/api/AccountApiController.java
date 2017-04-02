@@ -27,7 +27,7 @@ public class AccountApiController {
 		HttpStatus status = HttpStatus.OK;
 		if (!accountService.existsAccount(account.getEmail())) {
 			status = HttpStatus.CREATED;
-			return new ResponseEntity<Account>(accountService.saveAccount(account), status);
+			return new ResponseEntity<Account>(accountService.saveAccountFromApi(account), status);
 		} else
 			return new ResponseEntity<String>("Email already exists", status = HttpStatus.CONFLICT);
 	}

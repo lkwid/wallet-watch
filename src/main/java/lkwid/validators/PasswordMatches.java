@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
-import lkwid.entity.dto.UserDto;
+import lkwid.entity.dto.AccountDto;
 import lkwid.validators.PasswordMatches.PasswordMatchesValidator;
 
 @Target({TYPE, ANNOTATION_TYPE})
@@ -33,7 +33,7 @@ public @interface PasswordMatches {
 
     	@Override
     	public boolean isValid(Object value, ConstraintValidatorContext context) {
-    		UserDto user = (UserDto) value;
+    		AccountDto user = (AccountDto) value;
     		return user.getPassword().equals(user.getMatchingPassword());
     	}
 
