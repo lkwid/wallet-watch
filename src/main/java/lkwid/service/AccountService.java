@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,7 +48,7 @@ public class AccountService implements UserDetailsService {
 		return authorities;
 	}
 	
-	public Account showAccount(String email) {
+	public Account findAccount(String email) {
 		return accountDao.findByEmail(email);
 	}
 	
@@ -61,17 +62,17 @@ public class AccountService implements UserDetailsService {
 		return accountDao.save(account);
 	}
 	
-	public void updateAccount(long id, Account account) {
-		if (accountDao.exists(id))
+	public void updateAccount(String email, Account account) {
+		Example<Account> emailExample = Example.of(findAccount(email));
+		if (accountDao.exists(emailExample))
 			accountDao.save(account);
 		else
-			new ObjectNotFoundException(id, "account");
+			new ObjectNotFoundException(email, "account");
 	}
 	
-	public void deleteAccount(long id) {
-		accountDao.delete(id);
+	public void deleteAccount(String email) {
+		Account account = findAccount(email);
+		accountDao.delete(account);
 	}
-
-
 	
 }

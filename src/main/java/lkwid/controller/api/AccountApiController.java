@@ -3,8 +3,9 @@ package lkwid.controller.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class AccountApiController {
 
 	@Autowired
 	private AccountService accountService;
-
+	
 	@PostMapping
 	public ResponseEntity<?> createAccount(@RequestBody Account account) {
 		HttpStatus status = HttpStatus.OK;
@@ -31,11 +32,12 @@ public class AccountApiController {
 			return new ResponseEntity<String>("Email already exists", status = HttpStatus.CONFLICT);
 	}
 
-	@GetMapping("/{email}")
+	@GetMapping
 	@ResponseBody
-	public Account showUser(@PathVariable("email") String email) {
-		Account account = accountService.showAccount(email);
-		return account;
+	public String showUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Account account = accountService.findAccount(user.getUsername());
+		return "Account: " + account.getEmail() + " : " + account.getBalance();
 	}
 
 }

@@ -1,6 +1,7 @@
 package lkwid.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -37,7 +38,7 @@ public class AccountServiceTest {
 
 	@Test
 	public void getEmail() {		
-		Assert.assertEquals("rguzik@gmail.com", accountService.showAccount("rguzik@gmail.com").getEmail());
+		Assert.assertEquals("rguzik@gmail.com", accountService.findAccount("rguzik@gmail.com").getEmail());
 	}
 	
 	@Test
@@ -48,7 +49,15 @@ public class AccountServiceTest {
 	
 	@Test
 	public void getRoles() {	
-		Assert.assertEquals(Roles.USER.getName(), accountService.showAccount("rguzik@gmail.com").getRoles().get(0).getName());
+		Assert.assertEquals(Roles.USER.getName(), accountService.findAccount("rguzik@gmail.com").getRoles().get(0).getName());
+	}
+	
+	@Test
+	public void updateAccount() {
+		Account updatedAccount = testAccount;
+		updatedAccount.setBalance(new BigDecimal(3000.00));
+		accountService.updateAccount("rguzik@gmail.com", testAccount);
+		Assert.assertEquals(new BigDecimal(3000.00).setScale(2, RoundingMode.HALF_UP), accountService.findAccount("rguzik@gmail.com").getBalance());
 	}
 
 }
