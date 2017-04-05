@@ -1,0 +1,29 @@
+#cover {
+	color: white;
+	background-color: #804040;
+}
+.landing-col {
+	background: url('/img/wallet_bg.jpg') no-repeat;
+	-webkit-background-size: 100% auto;
+	-moz-background-size: 100% auto;
+	-o-background-size: 100% auto;
+	background-size: 100% auto;
+	height: 970px;
+}
+
+.landing-col .btn-link {
+	color: white;
+	font-size: 2em;	
+	margin-top: 7em;
+}
+
+.landing-col button:HOVER, .landing-col button:FOCUS, .landing-col button:ACTIVE {
+	color: white;
+	outline: none !important;
+}
+
+.landing-col form {
+	margin-top: 7em;
+}
+
+

@@ -29,11 +29,19 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.headers().frameOptions().disable()
 		.and()
 		.csrf().disable()
-		.httpBasic()
+		.httpBasic()		
+		.and()
+		.logout().logoutSuccessUrl("/")
 		.and()
 		.authorizeRequests()		
+		.antMatchers("/", "/webjars/**", "/css/**", "/img/**").permitAll()
 		.antMatchers("/api/**").hasRole("USER")
-		.anyRequest().authenticated();		
+		.anyRequest().authenticated()
+		.and()		
+		.formLogin()
+		.loginPage("/account/login").defaultSuccessUrl("/account")
+		.usernameParameter("username").passwordParameter("pass");
+
 	}
 
 }

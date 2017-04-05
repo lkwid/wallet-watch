@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,9 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
-	@RequestMapping("/welcome")
-	public String home() {
+	@RequestMapping({"/", "/welcome}"})
+	public String home(Model model, AccountDto accountDto) {
+		model.addAttribute("accountDto", accountDto);
 		return "home";
 	}
 	
@@ -36,9 +38,10 @@ public class AccountController {
 			result.rejectValue("email", "message.regEmail");
 		}
 		if (result.hasErrors())
-			return new ModelAndView("register", "account", accountDto);
+			return new ModelAndView("home", "accountDto", accountDto);
 		else
-			return new ModelAndView("account", "account", accountDto);		
+			return new ModelAndView("account", "accountDto", accountDto) {
+			};		
 	}
 
 	private Account createAccount(AccountDto accountDto) {
@@ -51,5 +54,6 @@ public class AccountController {
 		}
 		return account;
 	}
+
 
 }

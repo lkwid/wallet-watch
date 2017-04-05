@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default" lang="pl">
+<head>
+<title th:text="#{menu.account}">Account page</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+	<div class="row">Registered</div>
+		<div class="col-sm-12">
+			<ul th:each="operation : ${operations}">
+				<li th:text="${operation}" />
+			</ul>
+		</div>		
+	</div>
+</body>
+</html>
