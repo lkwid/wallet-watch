@@ -5,83 +5,87 @@
 <title th:text="#{menu.home}">Welcome page</title>
 </head>
 <body>
-	<div class="container-fluid" layout:fragment="content">
-		<div id="cover" class="row landing-col vertical-align">
+	<div id="home" class="container-fluid" layout:fragment="content">
+		<div class="row">
 			<div class="col-sm-2 col-sm-offset-2">
 				<button type="button" class="btn btn-link btn-lg" data-toggle="collapse" data-target="#login">Login</button>
 				<button type="button" class="btn btn-link btn-lg" data-toggle="collapse" data-target="#signup">Signup</button>
 			</div>
-			<form id="login" class="form-horizontal col-sm-8 collapse" th:action="@{/account/login}" method="post">
-				<div th:if="${param.error}" class="alert alert-error">Invalid username and password.</div>
-				<div class="form-group">
-					<label for="username" class="col-sm-2 control-label" th:text="#{form.email}">Email</label>
-					<div class="col-sm-8">
-						<input type="email" class="form-control" id="username" name="username" th:placeholder="#{form.email}" />
-					</div>
+			<div class="col-sm-8 collapsable">
+				<div class="row" th:if="${loginError}">
+					<div class="col-sm-3 col-sm-offset-2 alert alert-danger">Invalid username or password</div>
 				</div>
-				<div class="form-group">
-					<label for="pass" class="col-sm-2 control-label" th:text="#{form.password}">Password</label>
-					<div class="col-sm-8">
-						<input type="password" class="form-control" id="pass" name="pass" th:placeholder="#{form.password}" />
+				<form id="login" class="form-horizontal collapse" th:action="@{/login}" method="post">
+					<div class="form-group">
+						<label for="loginEmail" class="col-sm-2 control-label" th:text="#{form.email}">Email</label>
+						<div class="col-sm-8">
+							<input type="email" class="form-control" id="loginEmail" name="loginEmail" th:placeholder="#{form.email}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-6">
-						<button type="submit" class="btn btn-success" th:text="#{form.submit}">Send</button>
+					<div class="form-group">
+						<label for="loginPassword" class="col-sm-2 control-label" th:text="#{form.password}">Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="loginPassword" name="loginPassword" th:placeholder="#{form.password}" />
+						</div>
 					</div>
-				</div>
-			</form>
-			<form id="signup" class="form-horizontal col-sm-8 collapse" th:action="@{/account/registration}"
-				th:object="${accountDto}" method="post">
-				<div class="form-group">
-					<label for="firstName" class="col-sm-2 control-label" th:text="#{form.firstName}">First name</label>
-					<div class="col-sm-8">
-						<input th:field="*{firstName}" type="text" class="form-control" id="firstName" th:placeholder="#{form.firstName}" />
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<button type="submit" class="btn btn-success" th:text="#{form.submit}">Send</button>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="lastName" class="col-sm-2 control-label" th:text="#{form.lastName}">Last name</label>
-					<div class="col-sm-8">
-						<input th:field="*{lastName}" type="text" class="form-control" id="lastName" th:placeholder="#{form.lastName}" />
+				</form>
+				<form id="signup" class="form-horizontal collapse" th:action="@{/login/registration}"
+					th:object="${accountDto}" method="post">
+					<div class="form-group">
+						<label for="firstName" class="col-sm-2 control-label" th:text="#{form.firstName}">First name</label>
+						<div class="col-sm-8">
+							<input th:field="*{firstName}" type="text" class="form-control" id="firstName" th:placeholder="#{form.firstName}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="email" class="col-sm-2 control-label" th:text="#{form.email}">Email</label>
-					<div class="col-sm-8">
-						<input th:field="*{email}" type="email" class="form-control" id="email" th:placeholder="#{form.email}" />
+					<div class="form-group">
+						<label for="lastName" class="col-sm-2 control-label" th:text="#{form.lastName}">Last name</label>
+						<div class="col-sm-8">
+							<input th:field="*{lastName}" type="text" class="form-control" id="lastName" th:placeholder="#{form.lastName}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="password" class="col-sm-2 control-label" th:text="#{form.password}">Password</label>
-					<div class="col-sm-8">
-						<input th:field="*{password}" type="password" class="form-control" id="password" th:placeholder="#{form.password}" />
+					<div class="form-group">
+						<label for="email" class="col-sm-2 control-label" th:text="#{form.email}">Email</label>
+						<div class="col-sm-8">
+							<input th:field="*{email}" type="email" class="form-control" id="email" th:placeholder="#{form.email}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="matchingPassword" class="col-sm-2 control-label" th:text="#{form.matchingPassword}">Matching
-						password</label>
-					<div class="col-sm-8">
-						<input th:field="*{matchingPassword}" type="password" class="form-control" id="matchingPassword"
-							th:placeholder="#{form.matchingPassword}" />
+					<div class="form-group">
+						<label for="password" class="col-sm-2 control-label" th:text="#{form.password}">Password</label>
+						<div class="col-sm-8">
+							<input th:field="*{password}" type="password" class="form-control" id="password"
+								th:placeholder="#{form.password}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="balance" class="col-sm-2 control-label" th:text="#{form.balance}">Balance</label>
-					<div class="col-sm-8">
-						<input th:field="*{balance}" type="number" class="form-control" id="balance" th:placeholder="#{form.balance}" />
+					<div class="form-group">
+						<label for="matchingPassword" class="col-sm-2 control-label" th:text="#{form.matchingPassword}">Matching
+							password</label>
+						<div class="col-sm-8">
+							<input th:field="*{matchingPassword}" type="password" class="form-control" id="matchingPassword"
+								th:placeholder="#{form.matchingPassword}" />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-6">
-						<button type="submit" class="btn btn-success" th:text="#{form.submit}">Send</button>
+					<div class="form-group">
+						<label for="balance" class="col-sm-2 control-label" th:text="#{form.balance}">Balance</label>
+						<div class="col-sm-8">
+							<input th:field="*{balance}" type="number" class="form-control" id="balance" th:placeholder="#{form.balance}" />
+						</div>
 					</div>
-				</div>
-			</form>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<button type="submit" class="btn btn-success" th:text="#{form.submit}">Send</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-
 	</div>
 	<script layout:fragment="script">
-		var $coverGroup = $('#cover');
+		var $coverGroup = $('#home');
 		$coverGroup.on('show.bs.collapse', '.collapse', function() {
 			$coverGroup.find('.collapse.in').collapse('hide');
 		});

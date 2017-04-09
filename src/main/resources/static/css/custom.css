@@ -1,29 +1,49 @@
-#cover {
+#home {
 	color: white;
-	background-color: #804040;
-}
-.landing-col {
 	background: url('/img/wallet_bg.jpg') no-repeat;
-	-webkit-background-size: 100% auto;
-	-moz-background-size: 100% auto;
-	-o-background-size: 100% auto;
-	background-size: 100% auto;
-	height: 970px;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100vh;
 }
 
-.landing-col .btn-link {
+#home .btn-link {
 	color: white;
-	font-size: 2em;	
+	font-size: 2em;
 	margin-top: 7em;
 }
 
-.landing-col button:HOVER, .landing-col button:FOCUS, .landing-col button:ACTIVE {
-	color: white;
+#home .collapsable {
+	margin-top: 12em;
+}
+
+#account_bg {
+	background: url('/img/banknotes_bg.jpg') no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100vh;
+}
+
+#account {
+	background: white;
+	border-radius: 1em;
+}
+
+#account .btn {
+	color: black;
+}
+
+#account span {
+	vertical-align: -webkit-baseline-middle;
+}
+
+.menu {
+	background: none;
+}
+
+button:HOVER, button:FOCUS, button:ACTIVE {
 	outline: none !important;
 }
-
-.landing-col form {
-	margin-top: 7em;
-}
-
-

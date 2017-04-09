@@ -22,13 +22,20 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
-	@RequestMapping({"/", "/welcome}"})
+	@RequestMapping("/")	
 	public String home(Model model, AccountDto accountDto) {
-		model.addAttribute("accountDto", accountDto);
+		model.addAttribute("accountDto", accountDto);		
 		return "home";
 	}
 	
-	@PostMapping("/account/registration")
+	@RequestMapping("/login/error")
+	public String loginError(Model model, AccountDto accountDto) {
+		model.addAttribute("loginError", true);
+		model.addAttribute("accountDto", accountDto);	
+		return "home";
+	}
+
+	@PostMapping("/login/registration")
 	public ModelAndView regiterAccount(@ModelAttribute @Valid AccountDto accountDto, BindingResult result) {
 		Account account = new Account();
 		if (!result.hasErrors()) {
@@ -54,6 +61,5 @@ public class AccountController {
 		}
 		return account;
 	}
-
 
 }

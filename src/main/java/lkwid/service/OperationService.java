@@ -2,7 +2,8 @@ package lkwid.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -18,6 +19,7 @@ import lkwid.repository.OperationDao;
 @Service
 @Transactional
 public class OperationService {	
+	
 	@Autowired
 	private OperationDao operationDao;
 	@Autowired
@@ -43,8 +45,11 @@ public class OperationService {
 		return balance.subtract(transfer);
 	}
 	
-	public Collection<Operation> showOperations() {
-		return operationDao.findAllByUser();
+	public List<Operation> showOperations() {
+		Account account = getAccountFromSession();
+		List<Operation> operations = (List<Operation>) operationDao.findAllByUser(account.getId());
+		Collections.reverse(operations);
+		return operations;
 	}	
 
 

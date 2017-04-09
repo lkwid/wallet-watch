@@ -1,9 +1,6 @@
 package lkwid.controller.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +21,4 @@ public class OperationApiController {
 		operationService.saveOperation(operation);
 	}
 	
-	@GetMapping
-	public List<Operation> showOperations() {
-		return (List<Operation>) operationService.showOperations();
-	}	
-
 }
