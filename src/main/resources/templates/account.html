@@ -7,22 +7,41 @@
 <body>
 	<div id="account_bg" class="container-fluid" layout:fragment="content">
 		<div id="account" class="container">
+			<div class="modal fade" id="operation" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" th:text="#{modal.title}">New operation</h4>
+						</div>
+						<div class="modal-body">
+							<form class="row" th:action="@{/operation}" th:object="${operation}" method="post">
+								<label for="transfer" th:text="#{table.transfer}"></label> <input type="number" th:field="*{transfer}"
+									id="transfer" /> <label for="profit" th:text="#{table.profit}"></label> <input type="checkbox"
+									th:field="*{profit}" id="profit" value="false" /> <label for="description" th:text="#{table.description}"></label>								
+								<textarea th:field="*{description}" id="description"></textarea>								
+								<button type="submit" name="save" th:text="#{table.save}"></button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 			<span th:text="|#{account.name} ${#authentication.name}"></span>
 			<form class="pull-right" th:action="@{/logout}">
 				<button class="btn btn-link btn-sm">Logout</button>
 			</form>
-			<div class="row menu">
-			<div class="col-sm-1 col-sm-offset-5">
-				<button class="btn btn-link" th:action="@{/operation}" th:text="#{account.button}"></button>
-			</div>
-			</div>
 			<div class="row">
 				<table class="table">
 					<tr class="active">
 						<th class="col-sm-1" th:text="#{table.id}">#</th>
 						<th class="col-sm-1" th:text="#{table.date}">Date</th>
 						<th class="col-sm-2" th:text="#{table.transfer}">Amount</th>
-						<th class="col-sm-8" th:text="#{table.description}">Description</th>
+						<th class="col-sm-7" th:text="#{table.description}">Description</th>
+						<th class="col-sm-1">
+							<button class="btn btn-link btn-sm" data-toggle="modal" data-target="#operation" th:text="#{table.row.add}">Add</button>
+						</th>
 					</tr>
 					<tr th:each="operation : ${operations}">
 						<td th:text="${operation.id}" />
@@ -34,8 +53,5 @@
 			</div>
 		</div>
 	</div>
-	<script layout:fragment="script">
-		
-	</script>
 </body>
 </html>
