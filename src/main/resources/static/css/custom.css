@@ -18,7 +18,7 @@
 	margin-top: 12em;
 }
 
-#account_bg {
+#account-bg {
 	background: url('/img/banknotes_bg.jpg') no-repeat;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -46,4 +46,12 @@
 
 button:HOVER, button:FOCUS, button:ACTIVE {
 	outline: none !important;
+}
+
+#new-row .btn.active.focus {
+	outline: none;
+}
+
+#new-row input:focus {
+	outline: none;
 }

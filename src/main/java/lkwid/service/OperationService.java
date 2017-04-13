@@ -38,11 +38,16 @@ public class OperationService {
 		BigDecimal balance = balanceChange(operation.getTransfer(), account);
 		accountService.updateBalance(balance, account.getEmail());		
 		operationDao.save(operation);
-	}
+	}	
 
 	private BigDecimal balanceChange(BigDecimal transfer, Account account) {
 		BigDecimal balance = account.getBalance();
 		return balance.subtract(transfer);
+	}
+	
+	public BigDecimal showBalance() {
+		Account account = getAccountFromSession();
+		return account.getBalance();
 	}
 	
 	public List<Operation> showOperations() {
@@ -50,7 +55,11 @@ public class OperationService {
 		List<Operation> operations = (List<Operation>) operationDao.findAllByUser(account.getId());
 		Collections.reverse(operations);
 		return operations;
-	}	
+	}
+	
+	public void deleteOperation(long id) {
+		operationDao.delete(id);
+	}
 
 
 }

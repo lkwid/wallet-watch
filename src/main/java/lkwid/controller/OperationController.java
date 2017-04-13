@@ -2,6 +2,7 @@ package lkwid.controller;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class OperationController {
 		Collection<Operation> operations = operationService.showOperations();		
 		model.addAttribute("operation", new Operation());
 		model.addAttribute("operations", operations);
+		model.addAttribute("balance", operationService.showBalance());
 		return "account";
 	}
 	
@@ -31,6 +33,13 @@ public class OperationController {
 	public String saveOperation(@Valid Operation operation) {			
 		operationService.saveOperation(operation);
 		return "redirect:/account";
-	}	
+	}
+	
+	@RequestMapping(value = "/operation", params = "delete")
+	public String deleteOperation(HttpServletRequest req) {
+		long id =  Long.valueOf(req.getParameter("delete"));
+		operationService.deleteOperation(id);
+		return "redirect:/account";
+	}
 
 }

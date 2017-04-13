@@ -18,5 +18,6 @@ public interface AccountDao extends JpaRepository<Account, Long> {
 	
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE Account a SET a.balance = :balance WHERE a.email = :email")
-	int updateBalance(@Param("balance") BigDecimal balance, @Param("email") String email);
+	int updateBalance(@Param("balance") BigDecimal balance, @Param("email") String email);	
+	
 }

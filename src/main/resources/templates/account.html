@@ -5,51 +5,63 @@
 <title th:text="#{menu.account}">Account page</title>
 </head>
 <body>
-	<div id="account_bg" class="container-fluid" layout:fragment="content">
+	<div id="account-bg" class="container-fluid" layout:fragment="content">
 		<div id="account" class="container">
-			<div class="modal fade" id="operation" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-				<div class="modal-dialog modal-lg" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<h4 class="modal-title" th:text="#{modal.title}">New operation</h4>
-						</div>
-						<div class="modal-body">
-							<form class="row" th:action="@{/operation}" th:object="${operation}" method="post">
-								<label for="transfer" th:text="#{table.transfer}"></label> <input type="number" th:field="*{transfer}"
-									id="transfer" /> <label for="profit" th:text="#{table.profit}"></label> <input type="checkbox"
-									th:field="*{profit}" id="profit" value="false" /> <label for="description" th:text="#{table.description}"></label>								
-								<textarea th:field="*{description}" id="description"></textarea>								
-								<button type="submit" name="save" th:text="#{table.save}"></button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 			<span th:text="|#{account.name} ${#authentication.name}"></span>
 			<form class="pull-right" th:action="@{/logout}">
-				<button class="btn btn-link btn-sm">Logout</button>
+				<button class="btn btn-link btn-sm" type="submit">Logout</button>
 			</form>
 			<div class="row">
-				<table class="table">
-					<tr class="active">
-						<th class="col-sm-1" th:text="#{table.id}">#</th>
-						<th class="col-sm-1" th:text="#{table.date}">Date</th>
-						<th class="col-sm-2" th:text="#{table.transfer}">Amount</th>
-						<th class="col-sm-7" th:text="#{table.description}">Description</th>
-						<th class="col-sm-1">
-							<button class="btn btn-link btn-sm" data-toggle="modal" data-target="#operation" th:text="#{table.row.add}">Add</button>
-						</th>
-					</tr>
-					<tr th:each="operation : ${operations}">
-						<td th:text="${operation.id}" />
-						<td th:text="${operation.date}" />
-						<td th:text="${operation.transfer}" th:class="${operation.profit} ? success : danger" />
-						<td th:text="${operation.description}" />
-					</tr>
-				</table>
+				<form class="form-inline" th:action="@{/operation}" th:object="${operation}" method="post">
+					<table class="table">
+						<tr class="info">
+							<th th:text="#{table.id}">#</th>
+							<th class="col-sm-1" th:text="#{table.date}">Date</th>
+							<th class="col-sm-2" th:text="#{table.transfer}">Amount</th>
+							<th class="col-sm-8" th:text="#{table.description}">Description</th>
+							<th class="col-sm-1" th:text="${balance}">Operation</th>
+						</tr>
+						<tr id="new-row">
+							<td th:text="|0|" />
+							<td th:text="${#dates.format(#dates.createNow(),'YYYY-MM-dd')}" />
+							<td>
+								<div class="input-group">
+									<div class="input-group-btn">
+										<div data-toggle="buttons">
+											<label class="btn btn-xs active">
+												<input type="radio" th:field="*{profit}" value="false" checked="checked" />
+												-
+											</label>
+											<label class="btn btn-xs">
+												<input type="radio" th:field="*{profit}" value="true" />
+												+
+											</label>
+										</div>
+									</div>
+									<input type="number" step="0.01" style="border: none" th:field="*{transfer}" th:placeholder="#{operation.transfer}" />
+								</div>
+							</td>
+							<td><input class="col-sm-12" type="text" style="border: none" th:field="*{description}"
+									th:placeholder="#{operation.description}" /></td>
+							<td>
+								<button class="btn btn-link btn-xs" type="submit" name="save" aria-label="operation save">
+									<i class="glyphicon glyphicon-plus"></i>
+								</button>
+							</td>
+						</tr>
+						<tr th:each="operation,rowId : ${operations}">
+							<td th:text="${rowId.index+1}" />
+							<td th:text="${operation.date}" />
+							<td th:text="${operation.transfer}" th:class="${operation.profit} ? success : danger" />
+							<td th:text="${operation.description}" />
+							<td>
+								<button class="btn btn-link btn-xs" type="submit" name="delete" th:value="${operation.id}" aria-label="operation delete">
+									<i class="glyphicon glyphicon-minus"></i>
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
 			</div>
 		</div>
 	</div>
