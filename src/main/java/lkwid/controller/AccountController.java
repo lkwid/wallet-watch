@@ -1,15 +1,20 @@
 package lkwid.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import lkwid.entity.Account;
 import lkwid.entity.dto.AccountDto;
@@ -21,6 +26,8 @@ public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@RequestMapping("/")	
 	public String home(Model model, AccountDto accountDto) {
@@ -36,7 +43,7 @@ public class AccountController {
 	}
 
 	@PostMapping("/login/registration")
-	public ModelAndView regiterAccount(@ModelAttribute @Valid AccountDto accountDto, BindingResult result) {
+	public String regiterAccount(@ModelAttribute @Valid AccountDto accountDto, BindingResult result, HttpServletRequest request) {
 		Account account = new Account();
 		if (!result.hasErrors()) {
 			account = createAccount(accountDto);
@@ -45,10 +52,11 @@ public class AccountController {
 			result.rejectValue("email", "message.regEmail");
 		}
 		if (result.hasErrors())
-			return new ModelAndView("home", "accountDto", accountDto);
+			return "home";
 		else
-			return new ModelAndView("account", "accountDto", accountDto) {
-			};		
+			authenticateUserAndSetSession(account, request);
+			return "redirect:/account";
+			
 	}
 
 	private Account createAccount(AccountDto accountDto) {
@@ -61,5 +69,19 @@ public class AccountController {
 		}
 		return account;
 	}
+	
+	private void authenticateUserAndSetSession(Account account, HttpServletRequest request) {
+        String username = account.getEmail();
+        String password = account.getPassword();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
+        // generate session if one doesn't exist
+        request.getSession();
+
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authenticatedUser = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+    }
 
 }
